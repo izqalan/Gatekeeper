@@ -1,14 +1,21 @@
 # Gatekeeper
 IOT project for Data Communication class project
 
+## Pre-requisite
+- [Expo go](https://expo.dev/client) mobile App
+- NodeJs >= v14
+- yarn (optional)
+
 ## Environment Variable
+create `.env` file at root of the project folder with environment variables below
+
 ```
-REACT_NATIVE_FIREBASE_API_KEY=
-REACT_NATIVE_FIREBASE_AUTH_DOMAIN=
-REACT_NATIVE_FIREBASE_PROJECT_ID=
-REACT_NATIVE_FIREBASE_STORAGE_BUCKET=
-REACT_NATIVE_FIREBASE_MESSAGING_ID=
-REACT_NATIVE_FIREBASE_APP_ID=
+REACT_NATIVE_FIREBASE_API_KEY=xxxx
+REACT_NATIVE_FIREBASE_AUTH_DOMAIN=xxxx
+REACT_NATIVE_FIREBASE_PROJECT_ID=xxxx
+REACT_NATIVE_FIREBASE_STORAGE_BUCKET=xxxx
+REACT_NATIVE_FIREBASE_MESSAGING_ID=xxxx
+REACT_NATIVE_FIREBASE_APP_ID=xxxx
 ```
 
 ## Getting Started (with Expo)
