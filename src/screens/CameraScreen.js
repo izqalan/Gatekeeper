@@ -117,7 +117,7 @@ export default function CameraScreen({ route, navigation }) {
         </Provider>
         <View style={styles.buttonContainer}>
           <TouchableOpacity disabled={visible} onPress={() => takePicture()} style={styles.capture}>
-            <Text style={{ fontSize: 14 }}> Capture </Text>
+            <Text style={{ fontSize: 14 }}> Upload selfie </Text>
           </TouchableOpacity>
         </View>
       </Camera>
