@@ -15,6 +15,7 @@ import AuthScreen from './src/screens/AuthScreen';
 import AttendanceScreen from './src/screens/AttendanceScreen';
 import CameraScreen from './src/screens/CameraScreen';
 import CameraAttendanceScreen from './src/screens/CameraAttendanceScreen';
+import CreateEventScreen from './src/screens/CreateEventScreen';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -126,6 +127,14 @@ export default function App() {
               component={CameraAttendanceScreen}
               options={{
                 title: 'Taking Attendance',
+                headerTintColor: '#000000',
+              }}
+            />
+            <Stack.Screen
+              name={"CreateEventScreen"}
+              component={CreateEventScreen}
+              options={{
+                title: 'Create event',
                 headerTintColor: '#000000',
               }}
             />

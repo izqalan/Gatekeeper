@@ -2,18 +2,24 @@ import React, { useState, useEffect } from "react";
 import { View, ScrollView } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { GlobalStyles } from "../util/constants";
-import { Button, Text, Card, Title, Paragraph } from 'react-native-paper';
+import { Button, Text, Card, Title, Paragraph, FAB } from 'react-native-paper';
 import { firebase } from "../util/firebase";
 
 // get current user firebase
 export default function MainScreen({ navigation }) {
   const [events, setEvents] = useState(null);
+  const [fabState, setFabState] = useState({ open: false });
+  const [user, setUser] = useState(null);
+
+  const onStateChange = ({ open }) => setFabState({ open });
+  const { open } = fabState;
+
   useEffect(() => {
     // fetchUser();
     fetchEvents();
     fetchCurrentUser();
   }, []);
-  const [user, setUser] = useState(null);
+ 
 
 
   // const fetchUser = async () => {
@@ -68,7 +74,7 @@ export default function MainScreen({ navigation }) {
       }}>
 
         <Button
-          mode="contained" 
+          mode="contained"
           style={{
             marginTop: 0,
             marginBottom: 20,
@@ -90,6 +96,26 @@ export default function MainScreen({ navigation }) {
         </ScrollView>
 
       </View>
+      <FAB.Group
+        open={open}
+        icon={open ? 'plus' : 'calendar-today'}
+        c
+        actions={[
+          { 
+            icon: 'calendar', 
+            label: 'Create Event',
+            color: '#4C2F96',
+            labelTextColor: '#4C2F96',
+            onPress: () => navigation.navigate('CreateEventScreen', { user: user }) 
+          }
+        ]}
+        onStateChange={onStateChange}
+        onPress={() => {
+          if (open) {
+            // do something if the speed dial is open
+          }
+        }}
+      />
       <StatusBar style="auto" />
     </View>
   );
