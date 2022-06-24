@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, RefreshControl } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { GlobalStyles } from "../util/constants";
 import { Button, Text, List } from 'react-native-paper';
@@ -16,11 +16,12 @@ export default function AttendanceScreen({ navigation, route }) {
   }, []);
 
 
-  // const fetchUser = async () => {
-  //   const user = await firebase.auth().currentUser;
-  //   console.log('user', user);
-  //   return user;
-  // }
+  const [refreshing, setRefreshing] = React.useState(false);
+ 
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    fetchAttendees().then(() => setRefreshing(false));
+  }, []);
 
   const fetchAttendees = async () => {
     await firebase.firestore().collection('Events').doc(eventId).collection('Attendees').get().then(snapshot => {
@@ -30,7 +31,7 @@ export default function AttendanceScreen({ navigation, route }) {
           ...doc.data()
         }
       });
-      setAttendees(data);
+      setAttendees(data.reverse());
     }).catch(error => {
       console.log('error', error);
     });
@@ -51,13 +52,21 @@ export default function AttendanceScreen({ navigation, route }) {
         flexDirection: 'column',
         justifyContent: 'space-between',
         marginHorizontal: 5,
+        height: '100%',
       }}>
 
         <Text style={{ fontSize: 12 }}>
           {eventId}
         </Text>
 
-        <ScrollView>
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+            />
+          }
+        >
           {attendees != null && attendees.map(attendee => (
             <List.Item
               title={attendee.email}

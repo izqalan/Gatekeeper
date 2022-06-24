@@ -52,10 +52,10 @@ function LoggedInTabs() {
       shifting="true"
     >
       <Tab.Screen
-        name="To Do"
+        name="Main"
         component={MainScreen}
         options={{
-          tabBarLabel: 'Face Index',
+          tabBarLabel: 'Events',
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="view-list" color={color} size={26} />
           ),
@@ -103,7 +103,7 @@ export default function App() {
         <NavigationContainer>
           <Stack.Navigator>
             <Stack.Screen
-              name={"AI Attendece"}
+              name={"AI Attendance"}
               component={Container}
             />
             <Stack.Screen 

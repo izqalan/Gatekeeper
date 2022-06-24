@@ -13,15 +13,13 @@ export default function CreateEventScreen({ navigation, route }) {
   const [eventDetails, setEventDetails] = useState(null);
   const [loading, setLoading] = useState(false)
 
-  console.log(user);
-
   const createEvent = async (eventTitle, eventDetails) => {
     setLoading(true);
 
     const payload = {
       name: eventTitle,
       details: eventDetails,
-      createddBy: user.uid,
+      createdBy: user.uid,
       creatorName: user.email,
       createdAt: new Date(),
     }

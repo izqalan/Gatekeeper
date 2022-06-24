@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { Alert, View } from "react-native";
+import { CommonActions } from '@react-navigation/native';
 import { Button, Text, TextInput } from 'react-native-paper'
 import { GlobalStyles } from "../util/constants";
 import { firebase } from '../util/firebase';
 
-export default function ProfileScreen() {
+export default function ProfileScreen({ navigation }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
@@ -27,6 +28,15 @@ export default function ProfileScreen() {
     setLoading(false)
   }
 
+  const handleSignout = () => {
+    firebase.auth().signOut().then(() => {
+      navigation.dispatch(CommonActions.reset({
+        index: 0,
+        routes: [{ name: 'AI Attendance' }],
+      }));
+    });
+  }
+
   return (
     <View style={GlobalStyles.container}>
       <View style={{
@@ -39,7 +49,7 @@ export default function ProfileScreen() {
         <Button
           mode="contained"
           style={{ width: 115, height: 38, marginTop: 20 }}
-          onPress={() => firebase.auth().signOut()}
+          onPress={() => handleSignout()}
         >
           Sign out
         </Button>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, RefreshControl, StyleSheet } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { GlobalStyles } from "../util/constants";
 import { Button, Text, Card, Title, Paragraph, FAB } from 'react-native-paper';
@@ -14,19 +14,37 @@ export default function MainScreen({ navigation }) {
   const onStateChange = ({ open }) => setFabState({ open });
   const { open } = fabState;
 
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+    scrollView: {
+      flex: 1,
+      backgroundColor: 'pink',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+  });
+
+
   useEffect(() => {
     // fetchUser();
-    fetchEvents();
-    fetchCurrentUser();
+    if (!user){
+      fetchCurrentUser();
+    }
+    if (user) {
+      fetchEvents();
+    }
+  }, [user]);
+
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(async () => {
+    setRefreshing(true);
+    fetchEvents().then(() => setRefreshing(false));
+
   }, []);
- 
 
-
-  // const fetchUser = async () => {
-  //   const user = await firebase.auth().currentUser;
-  //   console.log('user', user);
-  //   return user;
-  // }
 
   const fetchCurrentUser = async () => {
     // firebase currentuser
@@ -43,17 +61,27 @@ export default function MainScreen({ navigation }) {
   }
 
   const fetchEvents = async () => {
-    const events = await firebase.firestore().collection('Events').get().then(snapshot => {
-      const data = snapshot.docs.map(doc => {
-        return {
-          id: doc.id,
-          ...doc.data()
-        }
-      });
-      setEvents(data);
-    }).catch(error => {
+    try {
+      const events = await firebase.firestore()
+        .collection('Events')
+        .where('createdBy', '==', user.uid)
+        .orderBy('createdAt')
+        .get()
+        .then(snapshot => {
+          const data = snapshot.docs.map(doc => {
+            return {
+              id: doc.id,
+              ...doc.data()
+            }
+          });
+          setEvents(data.reverse());
+          console.log(data)
+        }).catch(error => {
+          console.log('error', error);
+        });
+    } catch (error) {
       console.log('error', error);
-    });
+    }
   }
 
   return (
@@ -71,6 +99,7 @@ export default function MainScreen({ navigation }) {
         flexDirection: 'column',
         justifyContent: 'space-between',
         marginHorizontal: 5,
+        height: '100%',
       }}>
 
         <Button
@@ -83,7 +112,15 @@ export default function MainScreen({ navigation }) {
           Upload selfie
         </Button>
 
-        <ScrollView>
+        <ScrollView
+          // contentContainerStyle={styles.scrollView}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+            />
+          }
+        >
           {events !== null && events.map(event => (
             <Card key={event.id} style={{ marginVertical: 5, borderColor: '#4C2F96', borderWidth: 1 }}
               onPress={() => navigation.navigate('AttendanceScreen', { eventId: event.id, user: user })}>
@@ -93,6 +130,9 @@ export default function MainScreen({ navigation }) {
               </Card.Content>
             </Card>
           ))}
+          {events === null || events.length === 0 &&
+            <Text>No events found, please create one and refresh. </Text>
+          }
         </ScrollView>
 
       </View>
@@ -101,12 +141,12 @@ export default function MainScreen({ navigation }) {
         icon={open ? 'plus' : 'calendar-today'}
         c
         actions={[
-          { 
-            icon: 'calendar', 
+          {
+            icon: 'calendar',
             label: 'Create Event',
             color: '#4C2F96',
             labelTextColor: '#4C2F96',
-            onPress: () => navigation.navigate('CreateEventScreen', { user: user }) 
+            onPress: () => navigation.navigate('CreateEventScreen', { user: user })
           }
         ]}
         onStateChange={onStateChange}
