@@ -6,21 +6,78 @@ import { firebase } from '../util/firebase';
 import { fetchCurrentUser } from "../lib/firebase";
 
 export default function CreateEventScreen({ navigation, route }) {
-  
+
   const { user } = route.params;
 
-  const createEvent = async (payload) => {
+  const [eventTitle, setEventTitle] = useState("");
+  const [eventDetails, setEventDetails] = useState("");
+  const [loading, setLoading] = useState(false)
+
+  console.log(user);
+
+  const createEvent = async (eventTitle, eventDetails) => {
+    setLoading(true);
+
+    const payload = {
+      name: eventTitle,
+      details: eventDetails,
+      createddBy: user.uid,
+      creatorName: user.email,
+      createdAt: new Date(),
+    }
+
     try {
-      await firebase.firestore().collection('Events').add(payload);
+      await firebase.firestore().collection('Events').add(payload)
+        .then(() => {
+          Alert.alert('Success', 'Profile updated successfully');
+        }).catch((error) => {
+          Alert.alert('Error', error.message);
+        });
 
     } catch (error) {
-      console.log('error', error);
+      Alert.alert('Error', error);
     }
+    setLoading(false)
   }
 
   return (
     <View style={GlobalStyles.container}>
-      
+      <View style={{ marginHorizontal: 5 }}>
+        <Text style={GlobalStyles.subHeaderText}>Create an event</Text>
+      </View>
+      <View style={GlobalStyles.verticallySpaced}>
+        <TextInput
+          label="Event Title"
+          mode="outlined"
+          onChangeText={(text) => setEventTitle(text)}
+          value={eventTitle}
+          placeholder="Google I/O Extended KL"
+        />
+      </View>
+      <View style={GlobalStyles.verticallySpaced}>
+        <TextInput
+          label="Event details"
+          multiline
+          mode="outlined"
+          onChangeText={(text) => setEventDetails(text)}
+          value={eventDetails}
+          secureTextEntry={true}
+          placeholder="Autoscale your team's productivity with Google Cloud Platform"
+        />
+      </View>
+      <View style={{
+        marginHorizontal: 5,
+        marginTop: 10
+      }}>
+        <Button
+          mode="contained"
+          disabled={loading}
+          loading={loading}
+          onPress={() => createEvent(eventTitle, eventDetails)}
+        >
+          Create Event
+        </Button>
+      </View>
     </View>
   );
 }
