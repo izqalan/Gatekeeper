@@ -11,7 +11,11 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
-import AuthScreen from './src/screens/AuthScreen'
+import AuthScreen from './src/screens/AuthScreen';
+import AttendanceScreen from './src/screens/AttendanceScreen';
+import CameraScreen from './src/screens/CameraScreen';
+import CameraAttendanceScreen from './src/screens/CameraAttendanceScreen';
+import CreateEventScreen from './src/screens/CreateEventScreen';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -48,10 +52,10 @@ function LoggedInTabs() {
       shifting="true"
     >
       <Tab.Screen
-        name="To Do"
+        name="Main"
         component={MainScreen}
         options={{
-          tabBarLabel: 'Face Index',
+          tabBarLabel: 'Events',
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="view-list" color={color} size={26} />
           ),
@@ -99,8 +103,40 @@ export default function App() {
         <NavigationContainer>
           <Stack.Navigator>
             <Stack.Screen
-              name={"Door Pinger"}
+              name={"AI Attendance"}
               component={Container}
+            />
+            <Stack.Screen 
+              name="AttendanceScreen" 
+              component={AttendanceScreen} 
+              options={{
+                title: 'Attendance',
+                headerTintColor: '#000000',
+              }}
+            />
+            <Stack.Screen
+              name={"CameraScreen"}
+              component={CameraScreen}
+              options={{
+                title: 'Indexing Faces',
+                headerTintColor: '#000000',
+              }}
+            />
+            <Stack.Screen
+              name={"CameraAttendanceScreen"}
+              component={CameraAttendanceScreen}
+              options={{
+                title: 'Taking Attendance',
+                headerTintColor: '#000000',
+              }}
+            />
+            <Stack.Screen
+              name={"CreateEventScreen"}
+              component={CreateEventScreen}
+              options={{
+                title: 'Create event',
+                headerTintColor: '#000000',
+              }}
             />
           </Stack.Navigator>
         </NavigationContainer>

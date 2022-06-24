@@ -15,13 +15,11 @@ export default function AuthScreen() {
   const [signInLoading, setSignInLoading] = useState(Boolean(false))
   const [googleSingInLoading, setGoogleSingInLoading] = useState(Boolean(false));
 
-  const handleDeviceToken = async (userId) => {
+  const handlesMetadata = async (userId, payload) => {
     try {
-      const token = await registerForPushNotificationsAsync(Device, Notifications, Platform);
+      
       // update user metatdata
-      await firebase.firestore().collection('Users').doc(userId).set({
-        deviceToken: token
-      });
+      await firebase.firestore().collection('Users').doc(userId).set(payload);
     } catch (error) {
       console.error('error', error);
     }
@@ -29,11 +27,15 @@ export default function AuthScreen() {
 
   const handleLogin = async (type, email, password) => {
     // firebase login
+    const token = await registerForPushNotificationsAsync(Device, Notifications, Platform);
     if (type === 'LOGIN') {
       setSignInLoading(true)
       try {
         const { user } = await firebase.auth().signInWithEmailAndPassword(email, password);
-        handleDeviceToken(user.uid);
+        const payload = {
+          deviceToken: token,
+        }
+        handlesMetadata(user.uid, payload);
 
       } catch (error) {
         console.error('error', error);
@@ -43,7 +45,12 @@ export default function AuthScreen() {
       setSignUpLoading(true)
       try {
         const { user } = await firebase.auth().createUserWithEmailAndPassword(email, password);
-        handleDeviceToken(user.uid);
+        const payload = {
+          deviceToken: token,
+          email: email,
+          imageUploaded: false,
+        }
+        handlesMetadata(user.uid, payload);
 
         setSignUpLoading(false)
       } catch (error) {
