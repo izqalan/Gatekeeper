@@ -9,8 +9,8 @@ export default function CreateEventScreen({ navigation, route }) {
 
   const { user } = route.params;
 
-  const [eventTitle, setEventTitle] = useState("");
-  const [eventDetails, setEventDetails] = useState("");
+  const [eventTitle, setEventTitle] = useState(null);
+  const [eventDetails, setEventDetails] = useState(null);
   const [loading, setLoading] = useState(false)
 
   console.log(user);
@@ -29,11 +29,12 @@ export default function CreateEventScreen({ navigation, route }) {
     try {
       await firebase.firestore().collection('Events').add(payload)
         .then(() => {
-          Alert.alert('Success', 'Profile updated successfully');
+          Alert.alert('Success', 'Event created successfully');
         }).catch((error) => {
           Alert.alert('Error', error.message);
         });
-
+        setEventTitle(null);
+        setEventDetails(null);
     } catch (error) {
       Alert.alert('Error', error);
     }
