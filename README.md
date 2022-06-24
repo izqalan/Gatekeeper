@@ -1,39 +1,32 @@
 # Gatekeeper
 IOT project for Data Communication class project
 
-## Pre-requisite
-- [Expo go](https://expo.dev/client) mobile App
-- NodeJs >= v14
-- yarn (optional)
+## installation
 
-## Environment Variable
-create `.env` file at root of the project folder with environment variables below
-
+### Environment Variable
 ```
-REACT_NATIVE_FIREBASE_API_KEY=xxxx
-REACT_NATIVE_FIREBASE_AUTH_DOMAIN=xxxx
-REACT_NATIVE_FIREBASE_PROJECT_ID=xxxx
-REACT_NATIVE_FIREBASE_STORAGE_BUCKET=xxxx
-REACT_NATIVE_FIREBASE_MESSAGING_ID=xxxx
-REACT_NATIVE_FIREBASE_APP_ID=xxxx
+REACT_NATIVE_FIREBASE_API_KEY=
+REACT_NATIVE_FIREBASE_AUTH_DOMAIN=
+REACT_NATIVE_FIREBASE_PROJECT_ID=
+REACT_NATIVE_FIREBASE_STORAGE_BUCKET=
+REACT_NATIVE_FIREBASE_MESSAGING_ID=
+REACT_NATIVE_FIREBASE_APP_ID=
+REACT_NATIVE_AWS_ACCESS_KEY_ID=
+REACT_NATIVE_AWS_SECRET_ACCESS_KEY=
 ```
 
-## Getting Started (with Expo)
-If you are using Expo Cli, clone the repo and run "expo start" in the root folder of the project:
+### PC
+- Download or clone this repository 
+- install [NodeJs](https://nodejs.org/en/)
+- In the project's root directory, create a `.env` and paste the environment variable.
+- Using command line, on project's root directory run `npm install` to install ddependencies.
+- then `npm run start` to serve the app locally.
+
 ```
-git clone https://github.com/izqalan/Gatekeeper.git
-cd Gatekeeper
-npm install
-expo start
+C:\path\to\your\project-name> npm run install
+C:\path\to\your\project-name> npm run run
 ```
 
-## Getting Started (without Expo)
-If you prefer using React Native CLI, you'll need to eject from Expo first:
-```
-git clone https://github.com/izqalan/Gatekeeper.git
-cd Gatekeeper
-expo eject
-npm install
-react-native run-android // react-native run-ios
-```
-This React Native Firebase starter ([e2c3b6098d Tree](https://github.com/izqalan/Gatekeeper/tree/e2c3b6098dffae79b3c30178458a9540bc37a786)) is built with Firebase Web SDK, which makes it compatible with both Expo CLI and React Native CLI.
+### Mobile
+- install [Expo Go](https://expo.dev/client) on your smartphone
+- once local server is up, scan the qr code displayed on the command line/terminal.
