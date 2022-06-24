@@ -65,7 +65,7 @@ export default function AuthScreen() {
     <View style={GlobalStyles.container}>
       <View style={{ marginHorizontal: 5 }}>
         <Text style={GlobalStyles.headerText}>Gatekeeper</Text>
-        <Text style={{ marginBottom: 15 }}>Get notify how is entering your home</Text>
+        <Text style={{ marginBottom: 15 }}>Take Attendence using facial recognition</Text>
         <Text style={GlobalStyles.subHeaderText}>Login or create a new account</Text>
       </View>
       <View style={GlobalStyles.verticallySpaced}>
