@@ -1,5 +1,6 @@
 {
   "expo": {
+    "owner": "ukm",
     "name": "door-ping",
     "slug": "door-ping",
     "version": "1.0.0",
