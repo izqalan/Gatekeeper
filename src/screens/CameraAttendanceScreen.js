@@ -75,7 +75,6 @@ export default function CameraAttendanceScreen({ route, navigation }) {
                 // add user to event
                 firebase.firestore().collection('Events').doc(eventId).collection('Attendees').doc(detectedUserId).set({
                   userId: detectedUserId,
-                  email: userData.email,
                   createdAt: new Date(),
                 }).then(() => {
                   Toast.show({

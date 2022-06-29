@@ -75,7 +75,6 @@ export default function MainScreen({ navigation }) {
             }
           });
           setEvents(data.reverse());
-          console.log(data)
         }).catch(error => {
           console.log('error', error);
         });
